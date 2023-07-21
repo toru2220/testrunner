@@ -22,5 +22,5 @@ jobs:
     - name: Set environment variables based on selection
       run: |
         KEYNAME="MAP_URL_${{ inputs.environment }}"
-        ADDRESS=${{ vars.$KEYNAME }}
+        ADDRESS=${{ vars[${KEYNAME}] }}
         echo $ADDRESS
