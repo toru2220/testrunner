@@ -1,17 +1,26 @@
-name: Docker Image CI
+name: Environment Selection Workflow
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: envs
+        options: 
+        - QA
+        - PROD
 
 jobs:
-
-  build:
-
+  greet:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Build the Docker image
-      run: echo hello
+    - name: Check environment selection
+      run: |
+        echo "Selected environment: ${{ inputs.environment }}"
+
+    - name: Set environment variables based on selection
+      run: |
+        KEYNAME="MAP_URL_${{ inputs.environment }}"
+        ADDRESS=${{ secrets[KEYNAME] }}
+        echo $ADDRESS
